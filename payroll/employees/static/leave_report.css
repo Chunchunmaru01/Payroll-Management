@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 56px; 
+    background-color: #eddec7; 
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-start; 
+}
+
+.form {
+    flex: 1;
+}
+
+.input-field {
+    width: 100%;
+    max-width: 300px; 
+    padding: 10px; 
+    margin: 10px 0; 
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+}
+
+.reason-field {
+    background-color: #fff4e3; 
+    height: 100px; 
+}
+
+label {
+    display: block; 
+    margin: 5px 0; 
+}
+
+.calendar {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#calendarHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+#calendarTitle {
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.day-header {
+    font-weight: bold;
+    width: 40px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0c2b3b; 
+    color: #fff; 
+}
+
+.day-cell {
+    width: 40px; 
+    height: 40px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px; 
+    cursor: pointer; 
+    background-color: #fff4e3; 
+    border-radius: 5px;
+}
+
+.day-cell:hover {
+    background-color: #c0c0c0;
+}
+
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 280px; 
+    height: 280px; 
+    border: 1px solid #ccc;
+    border-radius: 10px; 
+    overflow: hidden;
+}
+
+.day-header, .day-cell {
+    border: 1px solid #ccc;
+}

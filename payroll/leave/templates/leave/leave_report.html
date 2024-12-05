@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Report</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 56px; 
+    background-color: #eddec7; 
+    padding: 10px;
+    border-radius: 5px;
+    text-align:left;
+    margin: 0 0 20px 0;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-start; 
+}
+
+.form {
+    flex: 1;
+}
+
+.input-field {
+    width: 100%;
+    max-width: 300px; 
+    padding: 10px; 
+    margin: 10px 0; 
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+}
+
+.reason-field {
+    background-color: #fff4e3; 
+    height: 100px; 
+}
+
+label {
+    display: block; 
+    margin: 5px 0; 
+}
+
+.calendar {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#calendarHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+#calendarTitle {
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.day-header {
+    font-weight: bold;
+    width: 40px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0c2b3b; 
+    color: #fff; 
+}
+
+.day-cell {
+    width: 40px; 
+    height: 40px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px; 
+    cursor: pointer; 
+    background-color: #fff4e3; 
+    border-radius: 5px;
+}
+
+.day-cell:hover {
+    background-color: #c0c0c0;
+}
+
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 350px; 
+    height: 300px; 
+    border: 1px solid #ccc;
+    border-radius: 10px; 
+    overflow: hidden;
+}
+
+.day-header, .day-cell {
+    border: 1px solid #ccc;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Leave Report</h1>
+        <div class="content">
+            <div class="form">
+                <label for="from">From:</label>
+                <input type="text" id="from" class="input-field" onclick="setField('from')" readonly>
+
+                <label for="to">To:</label>
+                <input type="text" id="to" class="input-field" onclick="setField('to')" readonly>
+
+                <label for="reason"></label>
+                <textarea id="reason" class="input-field reason-field" placeholder="Enter reason"></textarea>
+            </div>
+
+            <div class="calendar">
+                <div id="calendarHeader">
+                    <button id="prevMonth">❮</button>
+                    <span id="calendarTitle"></span>
+                    <button id="nextMonth">❯</button>
+                </div>
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let activeField = null;
+        let currentDate = new Date();
+
+        function setField(field) {
+            activeField = field; 
+        }
+
+        function createCalendar() {
+            const calendar = document.getElementById("calendar");
+            const calendarTitle = document.getElementById("calendarTitle");
+            calendar.innerHTML = ""; 
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            calendarTitle.innerText = `${currentDate.toLocaleString('default', { month: 'long' })} ${year}`;
+
+            
+            const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            daysOfWeek.forEach(day => {
+                const dayElement = document.createElement("div");
+                dayElement.classList.add("day-header");
+                dayElement.innerText = day;
+                calendar.appendChild(dayElement);
+            });
+
+            const firstDay = new Date(year, month, 1);
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const startingDay = firstDay.getDay();
+
+            
+            for (let i = 0; i < startingDay; i++) {
+                const emptyCell = document.createElement("div");
+                emptyCell.classList.add("day-cell");
+                calendar.appendChild(emptyCell);
+            }
+
+           
+            for (let i = 1; i <= daysInMonth; i++) {
+                const day = document.createElement("div");
+                day.innerText = i;
+                day.classList.add("day-cell");
+                day.onclick = () => selectDate(i); 
+                calendar.appendChild(day);
+            }
+        }
+
+        function selectDate(day) {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const selectedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+            if (activeField) {
+                document.getElementById(activeField).value = selectedDate; 
+                activeField = null; 
+            }
+        }
+
+        function changeMonth(direction) {
+            if (direction === 'next') {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            } else {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+            }
+            createCalendar();
+        }
+
+        document.getElementById("prevMonth").onclick = () => changeMonth('prev');
+        document.getElementById("nextMonth").onclick = () => changeMonth('next');
+
+        createCalendar(); 
+    </script>
+</body>
+</html>
